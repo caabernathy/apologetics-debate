@@ -1,0 +1,164 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { Button } from "../components/ui/Button";
+import { SignOutButton } from "../components/auth/SignOutButton";
+
+// Check if user is authenticated
+if (!Astro.locals.user) {
+  return Astro.redirect("/");
+}
+
+const user = Astro.locals.user;
+const userInitials = user.name
+  ? user.name
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase()
+  : user.email.substring(0, 2).toUpperCase();
+---
+
+<Layout title="My Profile - Apologetics Debate">
+  <div class="max-w-3xl mx-auto">
+    <div class="mb-8">
+      <h1 class="text-3xl font-bold">My Profile</h1>
+    </div>
+
+    <div class="card mb-8">
+      <div class="flex items-center gap-6">
+        <div
+          class="w-20 h-20 bg-primary-100 rounded-full flex items-center justify-center text-primary-700 text-2xl font-bold"
+        >
+          {userInitials}
+        </div>
+        <div>
+          <h2 class="text-xl font-medium">{user.name || "User"}</h2>
+          <p class="text-neutral-600">{user.email}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card mb-8">
+      <h2 class="text-xl font-medium mb-4">Account Settings</h2>
+
+      <form id="profile-form" class="space-y-6">
+        <div>
+          <label for="name" class="form-label">Name</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            class="form-input"
+            value={user.name || ""}
+            required
+          />
+        </div>
+
+        <div>
+          <label for="email" class="form-label">Email</label>
+          <input
+            type="email"
+            id="email"
+            class="form-input"
+            value={user.email}
+            disabled
+          />
+        </div>
+
+        <div>
+          <Button type="submit">Update Profile</Button>
+        </div>
+      </form>
+
+      <div id="profile-message" class="mt-4 hidden"></div>
+    </div>
+
+    <div class="card border border-accent-200">
+      <h2 class="text-xl font-medium mb-4 text-accent-800">Danger Zone</h2>
+
+      <div>
+        <SignOutButton
+          variant="outline"
+          className="text-accent-700 border-accent-300 hover:bg-accent-50"
+          client:load
+        >
+          Sign Out
+        </SignOutButton>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById('profile-form') as HTMLFormElement;
+      const messageDiv = document.getElementById('profile-message') as HTMLDivElement;
+      const submitButton = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const formData = new FormData(form);
+        const name = formData.get('name') as string;
+
+        if (!name.trim()) {
+          showMessage('Name is required', 'error');
+          return;
+        }
+
+        // Disable button and show loading state
+        submitButton.disabled = true;
+        submitButton.textContent = 'Updating...';
+
+        try {
+          const response = await fetch('/api/profile', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ name: name.trim() }),
+          });
+
+          const result = await response.json();
+
+          if (response.ok) {
+            showMessage('Profile updated successfully!', 'success');
+            // Update the display name in the profile section
+            const displayName = document.querySelector('h2.text-xl.font-medium');
+            if (displayName) {
+              displayName.textContent = name.trim();
+            }
+            // Update initials
+            const initials = name.trim().split(' ').map(n => n[0]).join('').toUpperCase();
+            const initialsDiv = document.querySelector('.w-20.h-20');
+            if (initialsDiv) {
+              initialsDiv.textContent = initials;
+            }
+          } else {
+            showMessage(result.error || 'Failed to update profile', 'error');
+          }
+        } catch (error) {
+          showMessage('Network error. Please try again.', 'error');
+        } finally {
+          // Re-enable button
+          submitButton.disabled = false;
+          submitButton.textContent = 'Update Profile';
+        }
+      });
+
+      function showMessage(message: string, type: 'success' | 'error') {
+        messageDiv.textContent = message;
+        messageDiv.className = `mt-4 p-3 rounded-md border ${
+          type === 'success' 
+            ? 'bg-green-50 text-green-700 border-green-200' 
+            : 'bg-accent-50 text-accent-700 border-accent-200'
+        }`;
+        messageDiv.classList.remove('hidden');
+        
+        // Hide message after 5 seconds
+        setTimeout(() => {
+          messageDiv.classList.add('hidden');
+        }, 5000);
+      }
+    });
+  </script>
+</Layout>

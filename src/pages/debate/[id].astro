@@ -1,0 +1,36 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { DebateInterface } from "../../components/debate/DebateInterface";
+
+// In a real app, this would fetch debate data from the database
+const { id } = Astro.params;
+const isUserApologist =
+  Astro.url.searchParams.get("isUserApologist") === "true";
+const topic = Astro.url.searchParams.get("topic") || "General Apologetics";
+
+// In a real app, this would fetch debate data from the database
+const debateTitle = topic;
+---
+
+<Layout title={`Debate: ${debateTitle} - Apologetics Debate`}>
+  <div class="max-w-5xl mx-auto">
+    <div class="flex justify-between items-center mb-4">
+      <div>
+        <h1 class="text-2xl font-bold">{debateTitle}</h1>
+        <p class="text-sm text-neutral-500">
+          {isUserApologist ? "You as Apologist" : "You as Skeptic"}
+        </p>
+      </div>
+      <a href="/debates" class="btn-outline text-sm"> Back to Debates </a>
+    </div>
+
+    <div class="card p-0 overflow-hidden">
+      <DebateInterface
+        sessionId={id || "new"}
+        isUserApologist={isUserApologist}
+        topic={topic}
+        client:load
+      />
+    </div>
+  </div>
+</Layout>

@@ -1,0 +1,120 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+  showNav?: boolean;
+}
+
+const {
+  title = "Apologetics Debate App",
+  description = "Practice your apologetics skills with AI-powered debates",
+  showNav = true,
+} = Astro.props;
+
+const isAuthenticated = Astro.locals.user && Astro.locals.user.id;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="min-h-screen bg-neutral-50 text-neutral-900 flex flex-col">
+    {
+      showNav && (
+        <header class="bg-white shadow-sm sticky top-0 z-10">
+          <div class="container mx-auto px-4 py-4 flex items-center justify-between">
+            <a href="/" class="font-serif text-2xl font-bold text-primary-800">
+              Apologetics Debate
+            </a>
+            <nav>
+              <ul class="flex gap-6">
+                <li>
+                  <a
+                    href="/"
+                    class="text-neutral-700 hover:text-primary-700 transition"
+                  >
+                    Home
+                  </a>
+                </li>
+                {isAuthenticated && (
+                  <>
+                    <li>
+                      <a
+                        href="/debates"
+                        class="text-neutral-700 hover:text-primary-700 transition"
+                      >
+                        My Debates
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="/profile"
+                        class="text-neutral-700 hover:text-primary-700 transition"
+                      >
+                        Profile
+                      </a>
+                    </li>
+                  </>
+                )}
+              </ul>
+            </nav>
+          </div>
+        </header>
+      )
+    }
+
+    <main class="container mx-auto px-4 py-8 flex-1">
+      <slot />
+    </main>
+
+    <footer class="bg-neutral-900 text-white py-8 mt-16">
+      <div class="container mx-auto px-4">
+        <div class="flex flex-col md:flex-row justify-between">
+          <div class="mb-6 md:mb-0">
+            <p class="font-serif text-xl font-bold">Apologetics Debate</p>
+            <p class="mt-2 text-neutral-400 text-sm max-w-md">
+              An interactive platform for engaging with Christian apologetics,
+              powered by the Apologist Fusion API.
+            </p>
+          </div>
+          <div>
+            <p class="font-semibold mb-2">Resources</p>
+            <ul class="space-y-1 text-neutral-400">
+              <li><a href="#" class="hover:text-white transition">About</a></li>
+              <li>
+                <a href="#" class="hover:text-white transition">Documentation</a
+                >
+              </li>
+              <li><a href="#" class="hover:text-white transition">API</a></li>
+            </ul>
+          </div>
+        </div>
+        <div
+          class="mt-8 pt-6 border-t border-neutral-800 text-sm text-neutral-500"
+        >
+          <p>
+            © {new Date().getFullYear()} Apologetics Debate App. All rights reserved.
+          </p>
+          <p class="mt-1">
+            This application uses AI-generated content. Always consult human
+            theological sources.
+          </p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

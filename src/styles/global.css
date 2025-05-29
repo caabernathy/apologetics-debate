@@ -1,0 +1,299 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary-50: #f0f5ff;
+  --color-primary-100: #e0eaff;
+  --color-primary-200: #c7d9ff;
+  --color-primary-300: #a1bcff;
+  --color-primary-400: #7595ff;
+  --color-primary-500: #4b6bff;
+  --color-primary-600: #3a4af7;
+  --color-primary-700: #2f38d9;
+  --color-primary-800: #2830af;
+  --color-primary-900: #252e8b;
+  --color-primary-950: #1a1d54;
+
+  --color-secondary-50: #f4f3ff;
+  --color-secondary-100: #ebe8ff;
+  --color-secondary-200: #d9d5ff;
+  --color-secondary-300: #bdb4ff;
+  --color-secondary-400: #9f8aff;
+  --color-secondary-500: #8257ff;
+  --color-secondary-600: #7038f8;
+  --color-secondary-700: #5f28e3;
+  --color-secondary-800: #4e23bb;
+  --color-secondary-900: #421f99;
+  --color-secondary-950: #271160;
+
+  --color-accent-50: #fef2f3;
+  --color-accent-100: #fde6e7;
+  --color-accent-200: #fbd0d5;
+  --color-accent-300: #f7acb5;
+  --color-accent-400: #f27d8c;
+  --color-accent-500: #e74b63;
+  --color-accent-600: #d42d4b;
+  --color-accent-700: #b2203d;
+  --color-accent-800: #951d37;
+  --color-accent-900: #7d1c35;
+  --color-accent-950: #450a1a;
+
+  --color-neutral-50: #f8fafc;
+  --color-neutral-100: #f1f5f9;
+  --color-neutral-200: #e2e8f0;
+  --color-neutral-300: #cbd5e1;
+  --color-neutral-400: #94a3b8;
+  --color-neutral-500: #64748b;
+  --color-neutral-600: #475569;
+  --color-neutral-700: #334155;
+  --color-neutral-800: #1e293b;
+  --color-neutral-900: #0f172a;
+  --color-neutral-950: #020617;
+
+  --font-sans: Inter, system-ui, sans-serif;
+  --font-serif: Merriweather, Georgia, serif;
+
+  --shadow-soft: 0 2px 10px rgba(0, 0, 0, 0.05);
+  --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.08);
+
+  --animate-fade-in: fade-in 0.3s ease-in-out;
+  --animate-slide-up: slide-up 0.4s ease-out;
+  --animate-pulse-light: pulse-light 2s infinite;
+
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  @keyframes slide-up {
+    0% {
+      transform: translateY(10px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  @keyframes pulse-light {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+}
+
+/*
+    The default border color has changed to `currentcolor` in Tailwind CSS v4,
+    so we've added these compatibility styles to make sure everything still
+    looks the same as it did with Tailwind CSS v3.
+  
+    If we ever want to remove these styles, we need to add an explicit border
+    color utility to any element that depends on these defaults.
+  */
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
+
+@utility btn {
+  @apply inline-flex items-center justify-center px-4 py-2 rounded-md font-medium transition-colors focus:outline-hidden focus:ring-2 focus:ring-offset-2;
+}
+
+@utility btn-primary {
+  @apply btn bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500;
+}
+
+@utility btn-secondary {
+  @apply btn bg-secondary-600 text-white hover:bg-secondary-700 focus:ring-secondary-500;
+}
+
+@utility btn-outline {
+  @apply btn border border-neutral-300 bg-white text-neutral-700 hover:bg-neutral-50 focus:ring-primary-500;
+}
+
+@utility card {
+  @apply bg-white rounded-lg shadow-card p-6;
+}
+
+@utility form-input {
+  @apply block w-full rounded-md border-neutral-300 shadow-xs focus:border-primary-500 focus:ring-primary-500;
+}
+
+@utility form-label {
+  @apply block text-sm font-medium text-neutral-700 mb-1;
+}
+
+@utility message-bubble {
+  @apply rounded-lg p-4 max-w-3xl;
+}
+
+@utility user-message {
+  @apply message-bubble bg-primary-50 border border-primary-100 ml-auto;
+}
+
+@utility ai-message {
+  @apply message-bubble bg-neutral-50 border border-neutral-200 mr-auto;
+}
+
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply text-neutral-800 font-sans;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-serif font-bold;
+  }
+
+  h1 {
+    @apply text-3xl md:text-4xl;
+  }
+
+  h2 {
+    @apply text-2xl md:text-3xl;
+  }
+
+  h3 {
+    @apply text-xl md:text-2xl;
+  }
+
+  p {
+    @apply leading-relaxed;
+  }
+}
+
+.typing-indicator {
+  display: inline-flex;
+  align-items: center;
+}
+
+.typing-indicator span {
+  width: 6px;
+  height: 6px;
+  margin-right: 3px;
+  background-color: currentColor;
+  border-radius: 50%;
+  opacity: 0.6;
+  animation: typing-dot 1.4s infinite ease-in-out both;
+}
+
+.typing-indicator span:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.typing-indicator span:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+@keyframes typing-dot {
+  0%,
+  80%,
+  100% {
+    transform: scale(0);
+  }
+  40% {
+    transform: scale(1);
+  }
+}
+
+.fade-enter {
+  opacity: 0;
+}
+
+.fade-enter-active {
+  opacity: 1;
+  transition: opacity 300ms;
+}
+
+.fade-exit {
+  opacity: 1;
+}
+
+.fade-exit-active {
+  opacity: 0;
+  transition: opacity 300ms;
+}
+
+/* Enhanced markdown styling for Apologist AI responses */
+.prose {
+  @apply text-neutral-700;
+}
+
+.prose h1 {
+  @apply text-xl font-serif font-bold text-neutral-800 mt-6 mb-4 first:mt-0;
+}
+
+.prose h2 {
+  @apply text-lg font-serif font-bold text-neutral-800 mt-5 mb-3 first:mt-0;
+}
+
+.prose h3 {
+  @apply text-base font-serif font-semibold text-neutral-800 mt-4 mb-2 first:mt-0;
+}
+
+.prose p {
+  @apply mb-4 leading-relaxed last:mb-0;
+}
+
+.prose ul, .prose ol {
+  @apply mb-4 ml-4;
+}
+
+.prose li {
+  @apply mb-2 leading-relaxed;
+}
+
+.prose ul li {
+  @apply list-disc;
+}
+
+.prose ol li {
+  @apply list-decimal;
+}
+
+.prose blockquote {
+  @apply border-l-4 border-primary-200 pl-4 py-1 italic text-neutral-600 bg-primary-50 my-4;
+}
+
+.prose strong {
+  @apply font-semibold text-neutral-800;
+}
+
+.prose em {
+  @apply italic;
+}
+
+.prose code {
+  @apply bg-neutral-100 px-1 py-0.5 rounded text-sm font-mono text-neutral-800;
+}
+
+.prose pre {
+  @apply bg-neutral-100 p-3 rounded-md overflow-x-auto my-4;
+}
+
+.prose pre code {
+  @apply bg-transparent p-0 text-sm;
+}
+
+.prose a {
+  @apply text-primary-600 hover:text-primary-700 underline;
+}

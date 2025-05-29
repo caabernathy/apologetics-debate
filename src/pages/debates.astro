@@ -1,0 +1,30 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { DebateHistory } from "../components/debate/DebateHistory";
+
+// Check if user is authenticated
+if (!Astro.locals.user) {
+  return Astro.redirect("/");
+}
+
+const user = Astro.locals.user;
+---
+
+<Layout title="My Debates - Apologetics Debate">
+  <div class="max-w-4xl mx-auto">
+    <div class="flex justify-between items-center mb-8">
+      <h1 class="text-3xl font-bold">My Debates</h1>
+      <a href="/new-debate" class="btn-primary"> New Debate </a>
+    </div>
+
+    <div class="card">
+      <DebateHistory
+        userId={user.id}
+        onSelectDebate={(id) => {
+          window.location.href = `/debate/${id}`;
+        }}
+        client:load
+      />
+    </div>
+  </div>
+</Layout>

@@ -1,0 +1,112 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { AuthForm } from "../components/auth/AuthForm";
+
+const isAuthenticated = Astro.locals.user && Astro.locals.user.id;
+---
+
+<Layout title="Apologetics Debate - Home">
+  <section class="py-12 md:py-20">
+    <div class="max-w-4xl mx-auto text-center">
+      <h1 class="text-4xl md:text-5xl font-bold text-neutral-900 mb-6">
+        Strengthen Your Faith Through <span class="text-primary-700"
+          >Thoughtful Debate</span
+        >
+      </h1>
+      <p class="text-xl text-neutral-600 mb-8 max-w-2xl mx-auto">
+        Practice your apologetics skills in a safe environment with our
+        AI-powered debate platform. Challenge or defend, learn and grow.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="/debates" class="btn-primary"> Start a Debate </a>
+        <a href="/about" class="btn-outline"> Learn More </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 bg-neutral-50">
+    <div class="max-w-6xl mx-auto">
+      <h2 class="text-3xl font-bold text-center mb-12">How It Works</h2>
+
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="card text-center">
+          <div
+            class="w-16 h-16 bg-primary-100 text-primary-700 rounded-full flex items-center justify-center mx-auto mb-4"
+          >
+            <span class="text-2xl font-bold">1</span>
+          </div>
+          <h3 class="text-xl font-bold mb-2">Choose Your Role</h3>
+          <p class="text-neutral-600">
+            Decide whether you want to challenge the AI as a skeptic or practice
+            your apologetic responses.
+          </p>
+        </div>
+
+        <div class="card text-center">
+          <div
+            class="w-16 h-16 bg-primary-100 text-primary-700 rounded-full flex items-center justify-center mx-auto mb-4"
+          >
+            <span class="text-2xl font-bold">2</span>
+          </div>
+          <h3 class="text-xl font-bold mb-2">Select a Topic</h3>
+          <p class="text-neutral-600">
+            Pick from common apologetic topics or create your own custom debate
+            focus.
+          </p>
+        </div>
+
+        <div class="card text-center">
+          <div
+            class="w-16 h-16 bg-primary-100 text-primary-700 rounded-full flex items-center justify-center mx-auto mb-4"
+          >
+            <span class="text-2xl font-bold">3</span>
+          </div>
+          <h3 class="text-xl font-bold mb-2">Engage in Debate</h3>
+          <p class="text-neutral-600">
+            Have a multi-turn conversation, developing arguments and responses
+            in a thoughtful manner.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {
+    !isAuthenticated && (
+      <section class="py-16">
+        <div class="max-w-6xl mx-auto">
+          <div class="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+              <h2 class="text-3xl font-bold mb-6">Get Started Today</h2>
+              <p class="text-lg text-neutral-600 mb-6">
+                Create an account to save your debate history and track your
+                progress over time.
+              </p>
+              <ul class="space-y-3 mb-8">
+                <li class="flex items-start">
+                  <span class="text-primary-600 mr-2">✓</span>
+                  <span>Practice with challenging objections</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="text-primary-600 mr-2">✓</span>
+                  <span>Learn from expert apologetic responses</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="text-primary-600 mr-2">✓</span>
+                  <span>Save and review your debate history</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="text-primary-600 mr-2">✓</span>
+                  <span>Strengthen your ability to defend your faith</span>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <AuthForm client:load />
+            </div>
+          </div>
+        </div>
+      </section>
+    )
+  }
+</Layout>

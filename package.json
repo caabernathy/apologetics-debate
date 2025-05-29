@@ -1,0 +1,39 @@
+{
+  "name": "apologist-debate-app",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "db:auth": "npx @better-auth/cli migrate",
+    "db:seed": "tsx scripts/init-db.ts"
+  },
+  "dependencies": {
+    "@astrojs/node": "^9.2.2",
+    "@astrojs/react": "^4.3.0",
+    "@google/genai": "^1.1.0",
+    "@libsql/client": "^0.15.7",
+    "@libsql/kysely-libsql": "^0.4.1",
+    "@tailwindcss/vite": "^4.1.7",
+    "@types/react": "^19.1.5",
+    "@types/react-dom": "^19.1.5",
+    "astro": "^5.8.0",
+    "better-auth": "^1.2.8",
+    "clsx": "^2.1.1",
+    "dotenv": "^16.5.0",
+    "drizzle-orm": "^0.43.1",
+    "openai": "^4.103.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-markdown": "^10.1.0",
+    "tailwindcss": "^4.1.7"
+  },
+  "devDependencies": {
+    "drizzle-kit": "^0.31.1",
+    "prettier": "3.5.3",
+    "prettier-plugin-astro": "0.14.1",
+    "tsx": "^4.19.4"
+  }
+}
