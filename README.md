@@ -2,6 +2,8 @@
 
 A web application for practicing Christian apologetics through AI-powered debates. Built with Astro, React, and TypeScript.
 
+![App Screenshot](media/app-screenshot.png)
+
 ## 🎯 Features
 
 - **Interactive Debate Interface**: Engage in structured debates on various apologetic topics
