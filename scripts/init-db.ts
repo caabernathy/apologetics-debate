@@ -1,7 +1,8 @@
+import "dotenv/config";
 import { createClient } from "@libsql/client";
 import { drizzle } from "drizzle-orm/libsql";
 import { migrate } from "drizzle-orm/libsql/migrator";
-import * as schema from "../src/lib/db/schema.js";
+import * as schema from "../src/lib/db/schema";
 
 async function initDatabase() {
   console.log("Initializing database...");
@@ -14,31 +15,11 @@ async function initDatabase() {
 
     const db = drizzle(client, { schema });
 
-    await client.execute(`
-      CREATE TABLE IF NOT EXISTS debate_sessions (
-        id TEXT PRIMARY KEY,
-        user_id TEXT NOT NULL,
-        topic TEXT NOT NULL,
-        is_user_apologist INTEGER NOT NULL,
-        created_at TEXT NOT NULL,
-        updated_at TEXT NOT NULL
-      );
-    `);
+    console.log("Applying migrations...");
+    await migrate(db, { migrationsFolder: "./drizzle" });
+    console.log("✅ Database migrations applied successfully!");
 
-    await client.execute(`
-      CREATE TABLE IF NOT EXISTS debate_messages (
-        id TEXT PRIMARY KEY,
-        session_id TEXT NOT NULL,
-        content TEXT NOT NULL,
-        sender_type TEXT NOT NULL CHECK (sender_type IN ('USER', 'AI', 'EXPERT')),
-        created_at TEXT NOT NULL,
-        FOREIGN KEY (session_id) REFERENCES debate_sessions(id)
-      );
-    `);
-
-    console.log("✅ Database tables created successfully!");
-
-    // Check if tables exist and have expected structure
+    // After migration, you can check all tables, including Better Auth's
     const tables = await client.execute(
       "SELECT name FROM sqlite_master WHERE type='table';",
     );

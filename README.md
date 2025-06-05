@@ -36,7 +36,7 @@ A web application for practicing Christian apologetics through AI-powered debate
 1. **Clone the repository**
    ```bash
    git clone <repository-url>
-   cd practicing-apologetics
+   cd apologetics-debate
    ```
 
 2. **Install dependencies**
@@ -52,25 +52,28 @@ A web application for practicing Christian apologetics through AI-powered debate
    Edit `.env` and add your API keys:
    ```env
    # Database Configuration
-   TURSO_DB_URL=http://localhost:8080
-   TURSO_DB_AUTH_TOKEN=your_turso_auth_token_here
+   TURSO_DB_URL=file:local.db
+   TURSO_DB_AUTH_TOKEN=your_turso_auth_token_here # leave it blank for local developmemt
 
    # Authentication Configuration
    BETTER_AUTH_URL=http://localhost:4321
+   BETTER_AUTH_SECRET=generate_some_secure_secret_for_this
 
    # Google Gemini API Configuration
    GOOGLE_GEMINI_API_KEY=your_google_gemini_api_key_here
 
    # Apologist Project API Configuration
    APOLOGIST_PROJECT_API_KEY=your_apologist_project_api_key_here
-   APOLOGIST_PROJECT_API_URL=https://api.apologistproject.com/v1
+   APOLOGIST_PROJECT_API_URL=https://apologist.ai/api/v1
    ```
 
 4. **Initialize the database**
    ```bash
-   npm run db:auth
-   npm run db:seed
+   npx drizzle-kit generate
+   npm run db:init
    ```
+
+   **Note:** If you ever need a database reset, delete the `drizzle` directory.
 
 5. **Start the development server**
    ```bash
@@ -112,8 +115,7 @@ A web application for practicing Christian apologetics through AI-powered debate
 
 | Command | Action |
 |---------|--------|
-| `npm run db:auth` | Generate authentication tables |
-| `npm run db:seed` | Generate debate tables and seed data |
+| `npm run db:init` | Generate database tables |
 
 ## 🔧 Development Commands
 

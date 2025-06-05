@@ -1,4 +1,4 @@
-const dbUrl = import.meta.env.TURSO_DB_URL || "http://localhost:8080";
+const dbUrl = import.meta.env.TURSO_DB_URL || "file:local.db";
 const dbAuthToken = import.meta.env.TURSO_DB_AUTH_TOKEN || "";
 
 export const database = {

@@ -1,17 +1,11 @@
 import { betterAuth } from "better-auth";
-import { LibsqlDialect } from "@libsql/kysely-libsql";
-import { database } from "./config";
-
-const dialect = new LibsqlDialect({
-  url: database.url,
-  authToken: database.token,
-});
+import { drizzleAdapter } from "better-auth/adapters/drizzle";
+import { db } from "./db/client";
 
 export const auth = betterAuth({
-  database: {
-    dialect,
-    type: "sqlite",
-  },
+  database: drizzleAdapter(db, {
+    provider: "sqlite",
+  }),
   emailAndPassword: {
     enabled: true,
   },

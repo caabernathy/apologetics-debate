@@ -1,0 +1,13 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1749150865934,
+      "tag": "0000_red_miss_america",
+      "breakpoints": true
+    }
+  ]
+}

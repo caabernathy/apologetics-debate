@@ -7,8 +7,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "db:auth": "npx @better-auth/cli migrate",
-    "db:seed": "tsx scripts/init-db.ts"
+    "db:init": "tsx scripts/init-db.ts"
   },
   "dependencies": {
     "@astrojs/node": "^9.2.2",
